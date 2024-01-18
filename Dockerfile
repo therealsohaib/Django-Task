@@ -7,7 +7,10 @@ WORKDIR /app
 
 COPY --chown=python:python requirements*.txt ./
 
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN pip install --upgrade pip 
+RUN pip install gunicorn 
+ADD ./requirements.txt /app/
+RUN pip install -r requirements.txt
 
 COPY . /app/
 
