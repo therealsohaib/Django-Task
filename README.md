@@ -7,7 +7,9 @@ Make sure you have the following software installed on your machine: - [Docker](
 [PostgreSQL](https://www.postgresql.org/download/)
 
 ## Installation 
-To set up the project locally, follow these steps: 1. Clone the repository: ```bash git clone https://github.com/therealsohaib/Django-Task.git
+To set up the project locally, follow these steps: 
+1. Clone the repository:
+   https://github.com/therealsohaib/Django-Task.git
 
 ## You need to install Celery and Redis in your virtual environments
 `pip install celery`
