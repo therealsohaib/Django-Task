@@ -1,8 +1,9 @@
 # Django Assignment
 
 This project is a Django application that implements an API for managing users, stocks, and transactions. The project utilizes Celery for handling asynchronous tasks and integrates with Redis for caching.
-> Assignment: Root Directory
-> Task: Django App
+> Task: Root Directory
+and
+> Assignment: Django App
 
 ## Requirements 
 Make sure you have the following software installed on your machine: - [Docker](https://www.docker.com/)
