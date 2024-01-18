@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  web:
+    image: python:3.9
+    container_name: django-app
+    command: sh -c "python manage.py migrate && python manage.py runserver 127.0.0.1:8000"
+    volumes:
+      - ./assignment:/app/assignment
+      - ./config:/app/config
+      - ./task:/app/task
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+  server:
+        restart: unless-stopped
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        expose:
+            - 8000     
+        environment:
+            DEBUG: "True"
+            CELERY_BROKER_URL: "redis://redis:6379/0"
+            CELERY_RESULT_BACKEND: "redis://redis:6379/0"
+            DJANGO_DB: postgresql
+            POSTGRES_HOST: db
+            POSTGRES_NAME: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_PORT: 5432
+  redis:
+        restart: unless-stopped
+        image: redis:7.0.5-alpine 
+        container_name: redis-server
+        expose:
+            - 6379  
+
+  db:
+    image: postgres:13
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Sohaib
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    expose:
+      - 5432
+
+  celery:
+    image: python:3.9
+    container_name: celery-worker
+    command: sh -c "celery -A config worker -l info"
+    volumes:
+      - ./assignment:/app/assignment
+      - ./config:/app/config
+      - ./task:/app/task
+    depends_on:
+      - db
+      - redis
+
+volumes:
+  postgres_data: {}
